@@ -28,10 +28,10 @@ def to_rgb(pixel):
 
 if __name__ == '__main__':
     # 配置信息
-    srcDir = '/Users/wenin/Downloads/image_color_replace' # 替换目录
-    mode = 0  # 0 模糊处理，按red色彩大于150， 1 指定颜色
-    sRGB = '#715218' # 当mode为1时有效
-    tRGB = '#FFB42D' # 目标色彩
+    srcDir = '/Users/wenin/mygit/xnb-app-web/static/icons/tabbar' # 替换目录
+    mode = 0  # 0 模糊处理，按red、green、blue有一个色彩大于100， 1 指定颜色
+    sRGB = '#3074FF' # 当mode为1时有效
+    tRGB = '#EA6077' # 目标色彩
 
     spixel = get_rgb(sRGB)
     tpixel = get_rgb(tRGB)
@@ -53,11 +53,11 @@ if __name__ == '__main__':
         for x in range(width):
             for y in range(height):
                 cpixel = img.getpixel((x, y))
-                if not isinstance(cpixel, tuple):
+                if not isinstance(cpixel, tuple) or len(cpixel) < 3:
                     continue
                 r, g, b, *o = cpixel
                 c[(r, g, b)] += 1
-                if (mode == 0 and r > 150 and (r, g, b) != tpixel) or (mode == 1 and (r, g, b) == spixel):
+                if (mode == 0 and max(r, g, b) > 120 and (r, g, b) != tpixel) or (mode == 1 and (r, g, b) == spixel):
                     img.putpixel((x, y), (*tpixel, *o))
                     flag = True
         if flag:
